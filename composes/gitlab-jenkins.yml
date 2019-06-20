@@ -1,0 +1,37 @@
+version: "3.1"
+
+networks:
+  jenkins:
+
+services:
+  gitlab:
+    image: "gitlab/gitlab-ce:latest"
+    restart: always
+    hostname: "localhost"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url "http://localhost:8787"
+        # Add any other gitlab.rb configuration here, each on its own line
+        # If you put :port after external_url, you should also listen to that port to local 8787:8787
+    ports:
+      - "8787:8787"
+      - "8001:443"
+      - "8002:22"
+    volumes:
+      - ./config:/etc/gitlab
+      - ./logs:/var/log/gitlab
+      - ./data:/var/opt/gitlab
+    container_name: local-gitlab
+    networks:
+      jenkins:
+
+  jenkins:
+    image: "jenkins/jenkins:2.176.1"
+    ports:
+      - "8081:8080"
+    container_name: jenkins-server
+    networks:
+      jenkins:
+
+# Reference 1. https://dkaushik94.github.io/devops/2018/05/15/jenkins-gitlab/
+# Reference 2. https://www.zhihu.com/question/60194439
