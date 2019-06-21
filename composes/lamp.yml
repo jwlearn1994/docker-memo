@@ -1,0 +1,55 @@
+version: '3.1'
+
+networks:
+  lamp:
+
+services:
+  web:
+    build: .
+    container_name: php-apache-web
+    restart: always
+    ports:
+      - 8081:80
+    volumes:
+      - ./htdocs/:/var/www/html/
+    depends_on:
+      - phpmyadmin
+      - db
+    networks:
+      - lamp
+
+  db:
+    image: mysql:latest
+    container_name: php-apache-mysql
+    ports: 
+      - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./mysql/:/var/lib/mysql/
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: fdyj7724
+      MYSQL_ROOT_PASSWORD: fdyj7724
+    networks:
+      - lamp
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: php-apache-admin
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: fdyj7724
+      MYSQL_ROOT_PASSWORD: fdyj7724
+      # PMA_ARBITRARY: 1
+      # PMA_HOSTS: db
+      # PMA_VERBOSE: sample
+      # PMA_USER: root
+      # PMA_PASSWORD: "fdyj7724"
+    depends_on:
+      - db
+    ports:
+      - 8887:80
+    networks:
+      - lamp
+  
