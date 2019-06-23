@@ -1,0 +1,37 @@
+version: "3.1"
+
+networks:
+  nodejs-net:
+
+services:
+  web:
+    image: "node:10.14.1"
+    container_name: "node-web"
+    ports:
+     - "80:80"
+     - "8080:8080"
+     - "8081:8081"
+    volumes:
+     - "./htdocs:/home/node"
+    stdin_open: "true"
+    tty: "true"
+    depends_on:
+     - "db"
+    networks:
+      nodejs-net:
+
+  db:
+    image: "mysql:8"
+    restart: "always"
+    container_name: "node-mysql"
+    volumes:
+     - "./mysql:/var/lib/mysql"
+    command: "--default-authentication-plugin=mysql_native_password"
+    environment:
+      MYSQL_USER: "johnnywang"
+      MYSQL_PASSWORD: "fdyj7724c121531316"
+      MYSQL_ROOT_PASSWORD: "fdyj7724c121531316"
+    networks:
+      nodejs-net:
+        aliases:
+         - "mysql"

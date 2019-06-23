@@ -452,3 +452,18 @@ expose ports，此設定與`network_mode: host`不相容
 ***volumes***
 
 (待補)
+
+***Error: exited with code 0***
+
+Docker-compose 生成容器後立刻退出，是因為在`docker run` 中，我們會加入 `-it`
+
+為容器添加一個偽終端，此時bash就不會自動退出。 但在`docker-compose`中，必須在yml檔
+
+中添加下方命令
+
+```yml
+# 第一行等於 docker run 的 -i
+# 第二行等於 docker run 的 -t
+stdin_open: "true"
+tty: "true"
+```
