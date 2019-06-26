@@ -29,8 +29,8 @@ services:
       - ./mysql/:/var/lib/mysql/
     environment:
       MYSQL_USER: user
-      MYSQL_PASSWORD: fdyj7724
-      MYSQL_ROOT_PASSWORD: fdyj7724
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
     networks:
       - lamp
 
@@ -39,8 +39,8 @@ services:
     container_name: php-apache-admin
     environment:
       MYSQL_USER: user
-      MYSQL_PASSWORD: fdyj7724
-      MYSQL_ROOT_PASSWORD: fdyj7724
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
       # PMA_ARBITRARY: 1
       # PMA_HOSTS: db
       # PMA_VERBOSE: sample
