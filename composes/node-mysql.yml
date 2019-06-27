@@ -26,6 +26,7 @@ services:
     container_name: "node-mysql"
     volumes:
      - "./mysql:/var/lib/mysql"
+     - "./my.cnf:/etc/mysql/my.cnf" # my.cnf 是mysql的設定檔
     command: "--default-authentication-plugin=mysql_native_password"
     environment:
       MYSQL_USER: "user"
