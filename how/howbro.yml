@@ -1,0 +1,62 @@
+version: '2'
+
+
+networks:
+  web-net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.102.102.0/24
+          gateway: 172.102.102.1
+
+
+services:
+  php:
+    build: .
+    restart: always
+    ports:
+      - 8888:8000
+    command:
+      - ./docker/wait-for-it.sh
+      - mariadb:3306
+#    tty: true
+#    stdin_open: true
+    container_name: whale_web_php
+    networks:
+      web-net:
+        ipv4_address: 172.102.102.2
+
+
+  mariadb:
+    image: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/mariadb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "xxxxx"
+      MYSQL_DATABASE: sample
+    container_name: whale_mariadb
+    networks:
+      web-net:
+        ipv4_address: 172.102.102.3
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - 8082:80
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOSTS: mariadb
+      PMA_VERBOSE: sample
+      PMA_USER: root
+      PMA_PASSWORD: "xxxxx"
+    container_name: whale_phpmyadmin
+    networks:
+      web-net:
+        ipv4_address: 172.102.102.4
