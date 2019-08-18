@@ -1,0 +1,9 @@
+version: '3.1'
+services: 
+  web:
+    build: .
+    ports:
+      - 8081:80
+    volumes: 
+      - ./:/home/node/myapp/
+    command: /bin/bash -c "npm start"
