@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  php-web:
+    image: php:7.3-apache
+    container_name: php-web
+    ports:
+      - 8081:80
+    volumes:
+      - /home/docker/Users/user/Desktop/docker/php-test/htdocs:/var/www/html
