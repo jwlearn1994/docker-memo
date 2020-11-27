@@ -53,6 +53,7 @@ services:
     volumes:
       - .:/var/www/project/
     command: "sh -c ''"
+    # command: gunicorn --bind=127.0.0.1:8000 --timeout=300 --workers=2 --threads=8 --keep-alive=60 server.wsgi:application
     working_dir: /var/www/project/
     environment:
       - DEPLOY=dev
