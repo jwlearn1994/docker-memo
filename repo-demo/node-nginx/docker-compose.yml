@@ -1,0 +1,12 @@
+version: "3.1"
+
+services:
+  web:
+    build: .
+    container_name: node-nginx
+    ports:
+      - 8000:80
+    working_dir: /home/node/app
+    command: >
+      bash -c "nginx && yarn start"
+    restart: "always"
