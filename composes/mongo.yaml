@@ -19,3 +19,8 @@ services:
 
 networks:
     botrista-dev:
+
+# for windows
+volumes:
+    mongodata:
+        external: true
