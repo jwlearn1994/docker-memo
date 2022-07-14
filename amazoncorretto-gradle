@@ -1,0 +1,21 @@
+# amazoncorretto
+# https://hub.docker.com/_/amazoncorretto?tab=tags&page=1&name=11
+FROM amazoncorretto:11.0.15-al2
+
+# Gradle Dockerfile
+# https://hub.docker.com/layers/gradle/library/gradle/7.2-jdk11/images/sha256-f9a6823b06a3020f47956b0e589ef6fed551d6ec2940339fc3c74746af7155e1?context=explore
+ENV GRADLE_HOME=/opt/gradle
+ENV GRADLE_VERSION=7.2
+
+RUN yum update && \
+    yum install -y wget unzip
+
+RUN mkdir $GRADLE_HOME
+
+RUN wget -c https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
+
+RUN unzip -d $GRADLE_HOME gradle-${GRADLE_VERSION}-bin.zip
+
+RUN ln --symbolic "${GRADLE_HOME}/gradle-${GRADLE_VERSION}/bin/gradle" /usr/bin/gradle
+
+EXPOSE 8080
