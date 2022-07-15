@@ -7,6 +7,7 @@ FROM amazoncorretto:11.0.15-al2
 ENV GRADLE_HOME=/opt/gradle
 ENV GRADLE_VERSION=7.2
 
+# Install gradle
 RUN yum update && \
     yum install -y wget unzip
 
@@ -17,5 +18,12 @@ RUN wget -c https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-b
 RUN unzip -d $GRADLE_HOME gradle-${GRADLE_VERSION}-bin.zip
 
 RUN ln --symbolic "${GRADLE_HOME}/gradle-${GRADLE_VERSION}/bin/gradle" /usr/bin/gradle
+
+# start service
+COPY ./backend /home/backend/
+
+WORKDIR /home/backend/
+
+RUN gradle build -x test
 
 EXPOSE 8080
