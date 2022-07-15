@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8
+    environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_USER=lcp_settle
+    - MYSQL_PASSWORD=lcp_settle
+    - MYSQL_DATABASE=lcp_settle_dev
+    ports:
+    - "3306:3306"
+    volumes:
+    - test-mysql-data:/var/lib/mysql
+    restart: on-failure
+  api:
+    # Dockerfile of amazoncorretto-gradle
+    build: .
+    container_name: lcp-settle-api
+    ports:
+    - "8080:8080"
+    depends_on:
+    - mysql
+    volumes:
+    - ./backend:/home/backend
+    command: /bin/bash -c "gradle bootRun --args='--spring.profiles.active=dev'"
+
+volumes:
+  test-mysql-data:
