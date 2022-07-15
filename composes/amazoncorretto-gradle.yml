@@ -5,9 +5,9 @@ services:
     image: mysql:8
     environment:
     - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_USER=lcp_settle
-    - MYSQL_PASSWORD=lcp_settle
-    - MYSQL_DATABASE=lcp_settle_dev
+    - MYSQL_USER=project_user
+    - MYSQL_PASSWORD=project_user
+    - MYSQL_DATABASE=test_project
     ports:
     - "3306:3306"
     volumes:
@@ -16,7 +16,7 @@ services:
   api:
     # Dockerfile of amazoncorretto-gradle
     build: .
-    container_name: lcp-settle-api
+    container_name: backend-api
     ports:
     - "8080:8080"
     depends_on:
